@@ -1,0 +1,29 @@
+Número de asiento, Nombre del pasajero, Clase, Destino
+05D, Ana Sánchez, Business, Londres
+08F, Sofía Vargas, Economy, Londres
+05D, Ana Sánchez, Business, Londres
+08F, Sofía Vargas, Economy, Londres
+05D,Ana Sánchez,Business,Londres
+08F,Sofía Vargas,Economy,Londres
+05D,Ana Sánchez,Business,Londres
+08F,Sofía Vargas,Economy,Londres
+05D,Ana Sánchez,Business,Londres
+08F,Sofía Vargas,Economy,Londres
+05D,Ana Sánchez,Business,Londres
+08F,Sofía Vargas,Economy,Londres
+05D,Ana Sánchez,Business,Londres
+08F,Sofía Vargas,Economy,Londres
+05D, Ana Sánchez, Business, Londres
+08F, Sofía Vargas, Economy, Londres
+05D, Ana Sánchez, Business, Londres
+08F, Sofía Vargas, Economy, Londres
+05D, Ana Sánchez, Business, Londres
+08F, Sofía Vargas, Economy, Londres
+05D, Ana Sánchez, Business, Londres
+08F, Sofía Vargas, Economy, Londres
+05D, Ana Sánchez, Business, Londres
+08F, Sofía Vargas, Economy, Londres
+05D, Ana Sánchez, Business, Londres
+08F, Sofía Vargas, Economy, Londres
+05D, Ana Sánchez, Business, Londres
+08F, Sofía Vargas, Economy, Londres
