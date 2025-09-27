@@ -10,6 +10,8 @@ public class SistemaReservas {
         // crear archivo
         GestorArchivos.crearArchivo(nombre_archivo);
 
+        // comprobar los encabezados del archivo
+        GestorArchivos.comprobarEncabezados(nombre_archivo , "NumeroAsiento,NombrePasajero,Clase");
         // hacemos una lista de los datos a escribir
         String [] datosEscribir = {
                 "12A, Juan Pérez, Economy",
