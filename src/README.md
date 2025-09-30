@@ -1,7 +1,4 @@
-Documentacion 
----
 
-```markdown
 # Proyecto: Crear Archivo de Reservas en Java
 
 ## 📖 Descripción
@@ -146,15 +143,3 @@ La IA fue utilizada como **herramienta de asistencia**, mientras que el código 
 
 * **Carmen Victoria Casas Novas García**
 * **Natalia Gámez Barea**
-
-```
-
----
-
-✅ Con esta versión:  
-- El formato es más limpio y profesional.  
-- Secciones están bien separadas con títulos y ejemplos.  
-- Se ve académico (explicación técnica, pasos, ejemplos, autoría y uso de IA).  
-
-¿Quieres que además le añada un apartado de **"Limitaciones y posibles mejoras"** (ejemplo: leer datos del usuario en vez de escribir fijos), para darle un extra académico?
-```

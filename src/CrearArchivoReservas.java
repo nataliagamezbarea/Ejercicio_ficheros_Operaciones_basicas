@@ -5,38 +5,61 @@ import java.io.BufferedWriter;        // Para escribir texto de manera eficiente
 import java.io.FileNotFoundException; // Excepción si la ruta no existe (carpeta inválida)
 import java.io.IOException;           // Excepción general de entrada/salida
 import java.io.FileWriter;            // Para abrir/crear el archivo
- /*https://chatgpt.com/share/68db97ed-9378-8000-bf96-5493b7b2e026*/
 
+/**
+ * Clase principal que permite crear o añadir reservas a un archivo de texto.
+ * Cada reserva contiene un ID, el nombre del pasajero, el número de vuelo y el asiento.
+ *
+ * El archivo se llama "reservas.txt" y se almacena en la carpeta raíz del proyecto.
+ * - Si el archivo no existe, se creará automáticamente.
+ * - Si ya existe, se abrirá en modo append para no borrar el contenido previo.
+ *
+ * Ejemplo de uso:
+ * <pre>
+ *     CrearArchivoReservas.agregarReserva("004", "Ana Torres", "MX789", "8D");
+ * </pre>
+ *
+ * Autoras:
+ * - Carmen Victoria Casas Novas García
+ * - Natalia Gámez Barea
+ */
 public class CrearArchivoReservas {
 
-    public static void main(String[] args) {
-        // Nombre del archivo de texto (se creará en la carpeta raíz del proyecto en IntelliJ)
-        String nombreArchivo = "reservas.txt";
+    /** Nombre del archivo donde se almacenan las reservas */
+    private static final String NOMBRE_ARCHIVO = "reservas.txt";
 
-        // try-with-resources: asegura que el archivo se cierre automáticamente
-        // FileWriter(nombreArchivo, true) -> "true" significa abrir en modo append (añadir al final sin borrar lo existente)
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo, true))) {
-
-            // Escribimos líneas de ejemplo (en un caso real, leerías datos del usuario)
-            writer.write("ReservaID: 001 | Pasajero: Juan Pérez | Vuelo: MX123 | Asiento: 12A");
-            writer.newLine(); // salto de línea
-
-            writer.write("ReservaID: 002 | Pasajero: María López | Vuelo: MX123 | Asiento: 12B");
+    /**
+     * Método reutilizable para añadir una reserva al archivo.
+     *
+     * @param reservaId   Identificador único de la reserva
+     * @param pasajero    Nombre del pasajero
+     * @param vuelo       Número de vuelo
+     * @param asiento     Número de asiento
+     */
+    public static void agregarReserva(String reservaId, String pasajero, String vuelo, String asiento) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(NOMBRE_ARCHIVO, true))) {
+            writer.write("ReservaID: " + reservaId + " | Pasajero: " + pasajero +
+                    " | Vuelo: " + vuelo + " | Asiento: " + asiento);
             writer.newLine();
-
-            writer.write("ReservaID: 003 | Pasajero: Carlos Sánchez | Vuelo: MX456 | Asiento: 5C");
-            writer.newLine();
-
-            // Mensaje amigable en consola
-            System.out.println("Archivo '" + nombreArchivo + "' creado/actualizado correctamente.");
-
+            System.out.println("Reserva agregada correctamente: " + reservaId);
         } catch (FileNotFoundException e) {
-            // Error raro aquí (sólo ocurre si la carpeta no existe o no hay permisos)
             System.err.println("Error: No se encontró la ruta del archivo -> " + e.getMessage());
-
         } catch (IOException e) {
-            // Errores generales de escritura (permisos, disco lleno, etc.)
             System.err.println("Error al crear o escribir en el archivo -> " + e.getMessage());
         }
+    }
+
+    /**
+     * Método principal para probar el programa.
+     *
+     * @param args No se utilizan en este ejemplo
+     */
+    public static void main(String[] args) {
+        // Ejemplo de uso del método reutilizable
+        agregarReserva("001", "Juan Pérez", "MX123", "12A");
+        agregarReserva("002", "María López", "MX123", "12B");
+        agregarReserva("003", "Carlos Sánchez", "MX456", "5C");
+
+        System.out.println("Archivo '" + NOMBRE_ARCHIVO + "' creado/actualizado correctamente.");
     }
 }
