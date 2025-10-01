@@ -6,9 +6,17 @@ import GestorArchivos.GestorArchivos;
 
 /**
  * Clase principal que ejecuta el programa de gestión de reservas de vuelos.
- * Crea un archivo maestro y clasifica las reservas por destino usando GestorArchivos.
+ * Permite crear un archivo maestro con todas las reservas y clasificarlas por destino,
+ * generando archivos individuales para cada destino y mostrando un resumen de las reservas.
  */
 public class SistemaGestionVuelos {
+
+    /**
+     * Método principal que inicia la ejecución del programa.
+     * Crea las reservas de ejemplo, genera el archivo maestro y llama a la clasificación por destino.
+     *
+     * @param args Argumentos de línea de comandos (no se utilizan en este programa)
+     */
     public static void main(String[] args) {
 
         // Datos de ejemplo: asiento, nombre, clase y destino
@@ -45,13 +53,16 @@ public class SistemaGestionVuelos {
 
     /**
      * Clasifica las reservas por destino, crea archivos por destino y muestra un resumen.
+     * Cada línea del archivo maestro se verifica, y si falta algún dato, se registra un error.
      *
      * @param archivoMaestro Nombre del archivo maestro que contiene todas las reservas.
      */
     public static void clasificarYContarPorDestino(String archivoMaestro) {
         List<String> lineas = GestorArchivos.leerArchivoLineas(archivoMaestro);
-        // destinos que ya han salido
+
+        // Lista de destinos ya procesados
         List<String> destinosProcesados = new ArrayList<>();
+        // Lista con la cantidad de reservas por cada destino
         List<Integer> cantidadPorDestino = new ArrayList<>();
 
         for (String linea : lineas) {
@@ -65,20 +76,18 @@ public class SistemaGestionVuelos {
             String archivoDestino = "reservas_" + destino.toLowerCase() + ".txt";
             GestorArchivos.appendArchivo(archivoDestino, linea);
 
-            // Contar reservas por destino busca el nombre de la columna que diga destino
+            // Contar reservas por destino
             int index = destinosProcesados.indexOf(destino);
             if (index == -1) {
                 destinosProcesados.add(destino);
                 cantidadPorDestino.add(1);
             } else {
-                // observa donde está el destino procesado y en la otra lista lee el valor que tiene
-                // el número de reservas que ya llevaba el destino suma 1 y guarda el nuevo valor
                 cantidadPorDestino.set(index, cantidadPorDestino.get(index) + 1);
             }
         }
+
         // Mostrar resumen por destino
         System.out.println("\nResumen de archivos por destino:");
-        // El size se utiliza para arraylist (el array le das una longitud fija , el array list puede augmentar el tamaño)
         for (int i = 0; i < destinosProcesados.size(); i++) {
             String archivoDestino = "reservas_" + destinosProcesados.get(i).toLowerCase() + ".txt";
             System.out.println(archivoDestino + " -> " + cantidadPorDestino.get(i) + " reservas");
