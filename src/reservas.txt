@@ -1,3 +1,0 @@
-ReservaID: 001 | Pasajero: Juan Pérez | Vuelo: MX123 | Asiento: 12A
-ReservaID: 002 | Pasajero: María López | Vuelo: MX123 | Asiento: 12B
-ReservaID: 003 | Pasajero: Carlos Sánchez | Vuelo: MX456 | Asiento: 5C

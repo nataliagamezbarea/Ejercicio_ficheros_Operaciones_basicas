@@ -1,38 +1,56 @@
 package Ejercicio3;
 
-// Clase que representa una reserva de vuelo
-// Cada objeto de esta clase guarda la información de un pasajero y su asiento
+/**
+ * Clase que representa una reserva de vuelo.
+ * Cada objeto de esta clase guarda la información de un pasajero y su asiento.
+ */
 public class Reserva {
 
-    // ATRIBUTOS: datos que cada reserva va a almacenar
-    private final String asiento;      // Número de asiento del pasajero (ej: "12A")
-    private final String nombre;       // Nombre del pasajero
-    private final String claseVuelo;   // Clase del vuelo (ej: "Economy" o "Business")
-    private final String destino;      // Destino del vuelo (ej: "Madrid")
+    /** Número de asiento del pasajero (ej: "12A") */
+    private final String asiento;
 
-    // CONSTRUCTOR: se usa para crear un objeto Reserva con todos sus datos
-    // Cuando creamos una nueva reserva, debemos pasar estos cuatro valores
+    /** Nombre del pasajero */
+    private final String nombre;
+
+    /** Clase del vuelo (ej: "Economy" o "Business") */
+    private final String claseVuelo;
+
+    /** Destino del vuelo (ej: "Madrid") */
+    private final String destino;
+
+    /**
+     * Constructor de la clase Reserva.
+     * Crea un objeto Reserva con todos sus datos.
+     *
+     * @param asiento Número de asiento del pasajero
+     * @param nombre Nombre del pasajero
+     * @param claseVuelo Clase del vuelo (ej: "Economy" o "Business")
+     * @param destino Destino del vuelo (ej: "Madrid")
+     */
     public Reserva(String asiento, String nombre, String claseVuelo, String destino) {
-        this.asiento = asiento;         // Se guarda el asiento en el atributo correspondiente
-        this.nombre = nombre;           // Se guarda el nombre
-        this.claseVuelo = claseVuelo;   // Se guarda la clase del vuelo
-        this.destino = destino;         // Se guarda el destino
+        this.asiento = asiento;
+        this.nombre = nombre;
+        this.claseVuelo = claseVuelo;
+        this.destino = destino;
     }
 
-    // GETTER para el destino
-    // Permite acceder al destino de la reserva desde fuera de la clase
+    /**
+     * Devuelve el destino de la reserva.
+     *
+     * @return Destino del vuelo
+     */
     public String getDestino() {
         return destino;
     }
 
-    // toString(): método que devuelve una representación en texto del objeto Reserva.
-// Convierte los atributos del objeto en una cadena separada por comas (asiento, nombre, claseVuelo, destino).
-// Para ver esta información basta con hacer un System.out.println(objetoReserva).
-// Esto es útil para imprimir la reserva en consola o escribirla en un archivo.
+    /**
+     * Devuelve una representación en texto del objeto Reserva.
+     * Convierte los atributos del objeto en una cadena separada por comas.
+     *
+     * @return Cadena con los datos de la reserva (asiento, nombre, clase de vuelo, destino)
+     */
     @Override
     public String toString() {
-        // String.join une los atributos en una sola línea, separados por comas y espacios
         return String.join(", ", asiento, nombre, claseVuelo, destino);
     }
-
 }
