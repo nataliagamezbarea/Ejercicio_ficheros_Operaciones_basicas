@@ -2,14 +2,13 @@ package Ejercicio2;
 
 import java.util.ArrayList;
 import java.util.List;
-import sistemaGestionVuelos.GestorArchivos;
+import GestorArchivos.GestorArchivos;
 
 /**
  * Clase principal que ejecuta el programa de gestión de reservas de vuelos.
  * Crea un archivo maestro y clasifica las reservas por destino usando GestorArchivos.
  */
 public class SistemaGestionVuelos {
-
     public static void main(String[] args) {
 
         // Datos de ejemplo: asiento, nombre, clase y destino
@@ -51,6 +50,7 @@ public class SistemaGestionVuelos {
      */
     public static void clasificarYContarPorDestino(String archivoMaestro) {
         List<String> lineas = GestorArchivos.leerArchivoLineas(archivoMaestro);
+        // destinos que ya han salido
         List<String> destinosProcesados = new ArrayList<>();
         List<Integer> cantidadPorDestino = new ArrayList<>();
 
@@ -65,18 +65,20 @@ public class SistemaGestionVuelos {
             String archivoDestino = "reservas_" + destino.toLowerCase() + ".txt";
             GestorArchivos.appendArchivo(archivoDestino, linea);
 
-            // Contar reservas por destino
+            // Contar reservas por destino busca el nombre de la columna que diga destino
             int index = destinosProcesados.indexOf(destino);
             if (index == -1) {
                 destinosProcesados.add(destino);
                 cantidadPorDestino.add(1);
             } else {
+                // observa donde está el destino procesado y en la otra lista lee el valor que tiene
+                // el número de reservas que ya llevaba el destino suma 1 y guarda el nuevo valor
                 cantidadPorDestino.set(index, cantidadPorDestino.get(index) + 1);
             }
         }
-
         // Mostrar resumen por destino
         System.out.println("\nResumen de archivos por destino:");
+        // El size se utiliza para arraylist (el array le das una longitud fija , el array list puede augmentar el tamaño)
         for (int i = 0; i < destinosProcesados.size(); i++) {
             String archivoDestino = "reservas_" + destinosProcesados.get(i).toLowerCase() + ".txt";
             System.out.println(archivoDestino + " -> " + cantidadPorDestino.get(i) + " reservas");

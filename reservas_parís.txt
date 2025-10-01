@@ -1,29 +1,2 @@
-Número de asiento, Nombre del pasajero, Clase, Destino
-14B, María López, Business, París
-19E, Luis Gómez, Economy, París
-14B, María López, Business, París
-19E, Luis Gómez, Economy, París
-14B,María López,Business,París
-19E,Luis Gómez,Economy,París
-14B,María López,Business,París
-19E,Luis Gómez,Economy,París
-14B,María López,Business,París
-19E,Luis Gómez,Economy,París
-14B,María López,Business,París
-19E,Luis Gómez,Economy,París
-14B,María López,Business,París
-19E,Luis Gómez,Economy,París
-14B, María López, Business, París
-19E, Luis Gómez, Economy, París
-14B, María López, Business, París
-19E, Luis Gómez, Economy, París
-14B, María López, Business, París
-19E, Luis Gómez, Economy, París
-14B, María López, Business, París
-19E, Luis Gómez, Economy, París
-14B, María López, Business, París
-19E, Luis Gómez, Economy, París
-14B, María López, Business, París
-19E, Luis Gómez, Economy, París
 14B, María López, Business, París
 19E, Luis Gómez, Economy, París

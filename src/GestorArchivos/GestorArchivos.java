@@ -1,4 +1,4 @@
-package sistemaGestionVuelos;
+package GestorArchivos;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -48,7 +48,7 @@ public class GestorArchivos {
     }
 
     /**
-     * Añade contenido al final de un archivo.
+     * Añade contenido al final de un archivo. Se añade en un array y luego se escribe
      *
      * @param nombreArchivo Nombre del archivo.
      * @param contenido     Contenido a añadir.
