@@ -1,69 +1,97 @@
 package Ejercicio3;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import GestorArchivos.GestorArchivos;
 
 /**
  * Programa para gestionar reservas de vuelos (Parte 3).
  * <p>
- * Esta versión incluye:
- * - Archivo maestro con datos válidos y algunos con errores.
- * - Clasificación por destino.
- * - Registro automático de errores utilizando GestorArchivos.
+ * Esta clase hace lo siguiente:
+ * - Define un conjunto de reservas de ejemplo, algunas con errores.
+ * - Crea un archivo maestro con todas las reservas.
+ * - Clasifica las reservas por destino, creando un archivo por cada destino.
+ * - Registra automáticamente las reservas inválidas en un log de errores.
+ * - Muestra un resumen con la cantidad de reservas por destino y los errores registrados.
  */
 public class SistemaGestionVuelosConErrores {
 
     public static void main(String[] args) {
 
-        // Nombre del archivo maestro con posibles errores
-        String archivoMaestro = "reservas_maestro_con_errores.txt";
+        // Datos de ejemplo: asiento, nombre, clase y destino
+        String[][] datos = {
+                {"12A", "Juan Pérez", "Economy", "Madrid"},
+                {"14B", "María López", "Business"},           // ERROR: falta destino
+                {"21C", "Carlos García", "Economy", "Madrid"},
+                {"05D", "Ana Sánchez", "Business", "Londres"},
+                {"19E", "Luis Gómez"},                        // ERROR: falta clase y destino
+                {"08F", "Sofía Vargas", "Economy", "Londres"},
+        };
 
-        // Crear el archivo si no existe
-        GestorArchivos.crearArchivoSiNoExiste(archivoMaestro);
+        // Crear lista de objetos Reserva
+        List<Reserva> reservas = new ArrayList<>();
+        for (String[] r : datos) {
+            // Inicializar los campos vacíos
+            String asiento = "";
+            String nombre = "";
+            String clase = "";
+            String destino = "";
 
-        // Datos iniciales (válidos e inválidos)
-        List<String> reservasIniciales = List.of(
-                "12A, Juan Pérez, Economy, Madrid",
-                "14B, María López, Business",                // ERROR: falta destino
-                "",                                          // ERROR: línea vacía
-                "21C, Carlos García, Economy, Madrid",
-                "05D, Ana Sánchez, Business, Londres",
-                "19E, Luis Gómez",                           // ERROR: falta clase y destino
-                "08F, Sofía Vargas, Economy, Londres",
-                "07G, Pedro Martínez, Economy, París",
-                "09H, Laura Torres, Business"                // ERROR: falta destino
-        );
+            // Rellenar los campos que existen
+            if (r.length > 0) asiento = r[0];
+            if (r.length > 1) nombre = r[1];
+            if (r.length > 2) clase = r[2];
+            if (r.length > 3) destino = r[3];
 
-        // Escribir los datos en el archivo maestro
-        for (String linea : reservasIniciales) {
-            GestorArchivos.appendArchivo(archivoMaestro, linea);
+            reservas.add(new Reserva(asiento, nombre, clase, destino));
         }
 
-        // Procesar reservas: clasificar válidas y registrar errores
-        procesarReservas(archivoMaestro);
+        // Nombre del archivo maestro
+        String archivoMaestro = "reservas_maestro_con_errores.txt";
+
+        // Crear el archivo maestro si no existe
+        GestorArchivos.crearArchivoSiNoExiste(archivoMaestro);
+
+        // Escribir todas las reservas en el archivo maestro
+        for (Reserva r : reservas) {
+            GestorArchivos.appendArchivo(archivoMaestro, r.toString());
+        }
+        System.out.println("\nArchivo maestro '" + archivoMaestro + "' creado con éxito.\n");
+
+        // Clasificar reservas por destino, mostrar resumen y registrar errores
+        clasificarYContarPorDestino(archivoMaestro);
     }
 
     /**
-     * Procesa las reservas del archivo maestro:
-     * - Guarda las válidas en el archivo de destino correspondiente.
-     * - Registra las inválidas en registro_errores.log usando GestorArchivos.
+     * Clasifica las reservas por destino y registra errores de líneas incompletas.
+     * <p>
+     * Por cada reserva del archivo maestro:
+     * - Se crea un archivo por destino (si no existe se crea).
+     * - Se guarda la reserva en el archivo correspondiente.
+     * - Si falta algún campo, se registra en registro_errores.log.
+     * - Se lleva un contador de cuántas reservas válidas hay por destino.
+     *
+     * @param archivoMaestro Nombre del archivo maestro que contiene todas las reservas.
      */
-    public static void procesarReservas(String archivoMaestro) {
+    public static void clasificarYContarPorDestino(String archivoMaestro) {
+        // Leer todas las líneas del archivo maestro
         List<String> lineas = GestorArchivos.leerArchivoLineas(archivoMaestro);
 
+        // Listas para llevar control de los destinos y la cantidad de reservas válidas
         List<String> destinosProcesados = new ArrayList<>();
         List<Integer> cantidadPorDestino = new ArrayList<>();
 
         for (String linea : lineas) {
             String[] datosLinea = linea.split(", ");
 
+            // Si no tiene los 4 campos, registrar error y continuar
             if (datosLinea.length < 4) {
-                // Usar el método de GestorArchivos para registrar el error
-                GestorArchivos.registrarError(linea, "Falta algún campo en la reserva");
+                String campoFaltante = determinarCampoFaltante(datosLinea.length);
+                GestorArchivos.registrarError(linea, "Falta el campo '" + campoFaltante + "'");
                 continue;
             }
 
+            // Guardar la reserva en el archivo del destino correspondiente
             String destino = datosLinea[3];
             String archivoDestino = "reservas_" + destino.toLowerCase() + ".txt";
             GestorArchivos.appendArchivo(archivoDestino, linea);
@@ -78,7 +106,7 @@ public class SistemaGestionVuelosConErrores {
             }
         }
 
-        // Mostrar resumen por destino
+        // Mostrar resumen de archivos por destino
         System.out.println("\nResumen de archivos por destino:");
         for (int i = 0; i < destinosProcesados.size(); i++) {
             String archivoDestino = "reservas_" + destinosProcesados.get(i).toLowerCase() + ".txt";
@@ -87,6 +115,22 @@ public class SistemaGestionVuelosConErrores {
 
         // Mostrar errores registrados
         mostrarErrores();
+    }
+
+    /**
+     * Determina cuál campo falta según el número de datos presentes en la línea.
+     *
+     * @param camposPresentes Cantidad de campos encontrados en la línea.
+     * @return Nombre del campo faltante.
+     */
+    private static String determinarCampoFaltante(int camposPresentes) {
+        switch (camposPresentes) {
+            case 0: return "asiento";
+            case 1: return "nombre";
+            case 2: return "clase";
+            case 3: return "destino";
+            default: return "desconocido";
+        }
     }
 
     /**
