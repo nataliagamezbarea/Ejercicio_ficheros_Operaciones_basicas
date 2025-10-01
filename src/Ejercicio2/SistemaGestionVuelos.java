@@ -5,17 +5,22 @@ import java.util.List;
 import GestorArchivos.GestorArchivos;
 
 /**
- * Clase principal que ejecuta el programa de gestión de reservas de vuelos.
- * Permite crear un archivo maestro con todas las reservas y clasificarlas por destino,
- * generando archivos individuales para cada destino y mostrando un resumen de las reservas.
+ * Programa para gestionar reservas de vuelos.
+ * <p>
+ * Esta clase hace lo siguiente:
+ * - Define un conjunto de reservas de ejemplo.
+ * - Crea un archivo maestro con todas las reservas.
+ * - Clasifica las reservas por destino, creando un archivo por cada destino.
+ * - Muestra un resumen con la cantidad de reservas por destino.
  */
 public class SistemaGestionVuelos {
 
     /**
-     * Método principal que inicia la ejecución del programa.
-     * Crea las reservas de ejemplo, genera el archivo maestro y llama a la clasificación por destino.
+     * Método principal que arranca el programa.
+     * Crea reservas de ejemplo, genera el archivo maestro y llama
+     * al método que clasifica las reservas por destino.
      *
-     * @param args Argumentos de línea de comandos (no se utilizan en este programa)
+     * @param args Argumentos de la línea de comandos (no se usan).
      */
     public static void main(String[] args) {
 
@@ -52,22 +57,28 @@ public class SistemaGestionVuelos {
     }
 
     /**
-     * Clasifica las reservas por destino, crea archivos por destino y muestra un resumen.
-     * Cada línea del archivo maestro se verifica, y si falta algún dato, se registra un error.
+     * Clasifica las reservas por destino.
+     * <p>
+     * Por cada reserva del archivo maestro:
+     * - Se crea un archivo por destino (si no existe se crea).
+     * - Se guarda la reserva en el archivo correspondiente.
+     * - Se lleva un contador de cuántas reservas hay por destino.
+     * <p>
+     * Al final, se imprime un resumen con los archivos creados y el número de reservas por cada destino.
      *
      * @param archivoMaestro Nombre del archivo maestro que contiene todas las reservas.
      */
     public static void clasificarYContarPorDestino(String archivoMaestro) {
         List<String> lineas = GestorArchivos.leerArchivoLineas(archivoMaestro);
 
-        // Lista de destinos ya procesados
+        // Lista para registrar los destinos que ya se han procesado
         List<String> destinosProcesados = new ArrayList<>();
-        // Lista con la cantidad de reservas por cada destino
         List<Integer> cantidadPorDestino = new ArrayList<>();
 
         for (String linea : lineas) {
             String[] datosLinea = linea.split(", ");
             if (datosLinea.length < 4) {
+                // Guardar error si falta algún dato
                 GestorArchivos.registrarError(linea, "Falta algún campo en la reserva");
                 continue;
             }
