@@ -84,7 +84,7 @@ public class GestorArchivos {
             int numeroAsientoCol = listaColumnas.indexOf("NumeroAsiento");
             int nombrePasajeroCol = listaColumnas.indexOf("NombrePasajero");
             int claseCol = listaColumnas.indexOf("Clase");
-
+            int destinoCol = listaColumnas.indexOf("Destino");
             // Validamos que los encabezados existen; si falta alguno, mostramos un mensaje y salimos
             if (numeroAsientoCol == -1 || nombrePasajeroCol == -1 || claseCol == -1) {
                 System.out.println("Error: el archivo debe contener los encabezados 'NumeroAsiento, NombrePasajero, Clase'.");
@@ -100,11 +100,12 @@ public class GestorArchivos {
 
                 // Creamos una nueva reserva usando los índices que encontramos antes
                 // trim() elimina espacios al inicio o al final por seguridad
-                new Reservas(
-                        datos[numeroAsientoCol].trim(),
-                        datos[nombrePasajeroCol].trim(),
-                        datos[claseCol].trim()
-                );
+                if (destinoCol != -1) {
+                    new Reservas(datos[numeroAsientoCol].trim(), datos[nombrePasajeroCol].trim(), datos[claseCol].trim() , datos[destinoCol].trim());
+                } else {
+                    new Reservas(datos[numeroAsientoCol].trim(), datos[nombrePasajeroCol].trim(), datos[claseCol].trim());
+                }
+
             }
 
             // Cerramos el lector después de terminar de leer el archivo
