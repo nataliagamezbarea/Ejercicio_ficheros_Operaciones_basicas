@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 public class Reservas {
     // guarda el numero de asiento de cada reserva
-    private String numeroAsiento;
+    private final String numeroAsiento;
     // guarda el nombre del pasajero
-    private String nombrePasajero;
+    private final String nombrePasajero;
     // clase del pasajero
-    private String clase;
+    private final String clase;
     // destino del pasajero
-    private String destino;
+    private final String destino;
     // contador de todas las reservas que se han creado
     private static int contador_reservas = 0;
     // lista donde se almacenan todas las reservas como objetos
-    private static ArrayList<Reservas> reservas = new ArrayList<>();
+    private static final ArrayList<Reservas> reservas = new ArrayList<>();
 
     public Reservas(String numeroAsiento, String nombrePasajero, String clase) {
         this(numeroAsiento, nombrePasajero, clase, "");
@@ -37,10 +37,27 @@ public class Reservas {
         reservas.add(this);
     }
 
+    public String getNumeroAsiento() {
+        return numeroAsiento;
+    }
+
+    public String getNombrePasajero() {
+        return nombrePasajero;
+    }
+
+    public String getClase() {
+        return clase;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+
     public static boolean getHayDestino() {
         boolean hayDestino = false;
         for (Reservas reserva : reservas) {
-            if (!reserva.destino.isEmpty()) {
+            if (!reserva.getDestino().isEmpty()) { // <--- uso getter
                 hayDestino = true;
                 break; // no hace falta seguir buscando
             }
@@ -53,9 +70,9 @@ public class Reservas {
     @Override
     public String toString() {
         if (Reservas.getHayDestino()) {
-            return String.join(",", nombrePasajero,  clase , destino);
+            return String.join(",", getNombrePasajero(), getClase(), getDestino());
         } else {
-            return String.join(",", nombrePasajero, clase);
+            return String.join(",", getNombrePasajero(), getClase());
         }
     }
 
@@ -63,25 +80,13 @@ public class Reservas {
      * Muestra todas las reservas en formato tabulado
      */
     public static void getMostrarReservas() {
-        boolean hayDestino = Reservas.getHayDestino();
+        System.out.printf("%-20s%-20s%-20s%n", "NumeroAsiento", "NombrePasajero", "Clase");
 
-        // Imprimir encabezados
-        if (hayDestino) {
-            System.out.printf("%-20s%-20s%-20s%-20s%n", "NumeroAsiento", "NombrePasajero", "Clase", "Destino");
-        } else {
-            System.out.printf("%-20s%-20s%-20s%n", "NumeroAsiento", "NombrePasajero", "Clase");
-        }
-
-        // Imprimir cada reserva
         for (Reservas reserva : reservas) {
-            if (hayDestino) {
-                System.out.printf("%-20s%-20s%-20s%-20s%n", reserva.numeroAsiento, reserva.nombrePasajero, reserva.clase, reserva.destino);
-            } else {
-                System.out.printf("%-20s%-20s%-20s%n", reserva.numeroAsiento, reserva.nombrePasajero, reserva.clase);
-            }
+            // imprimimos cada columna con ancho fijo para que quede alineado
+            System.out.printf("%-20s%-20s%-20s%n", reserva.getNumeroAsiento(), reserva.getNombrePasajero(), reserva.getClase());
         }
     }
-
 
     /**
      * Cuenta cuántas reservas hay de una clase específica
@@ -91,7 +96,7 @@ public class Reservas {
 
         for (Reservas reserva : reservas) {
             // partes[2] corresponde a la columna "Clase"
-            if (reserva.clase.equalsIgnoreCase(claseBuscada)) {
+            if (reserva.getClase().equalsIgnoreCase(claseBuscada)) {
                 contador_clase++;
             }
         }
