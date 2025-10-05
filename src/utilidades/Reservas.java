@@ -145,5 +145,20 @@ public class Reservas {
         return destinos;
     }
 
+    /**
+     * Devuelve un número de reservas por destino.
+     *
+     * @param destinoBuscado el destino a contar
+     * @return la cantidad de reservas para ese destino
+     */
+    public static int getCantidadPorDestino(String destinoBuscado) {
+        int contadorDestino = 0;
+        for (Reservas r : listaReservas) {
+            if (r.getDestino().equalsIgnoreCase(destinoBuscado)) {
+                contadorDestino++;
+            }
+        }
+        return contadorDestino;
+    }
 
 }

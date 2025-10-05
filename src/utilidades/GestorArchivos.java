@@ -11,10 +11,14 @@ public class GestorArchivos {
      *
      * @param nombre_archivo el nombre del archivo que se crea es el pasado por parámetro
      */
-    public static void crearArchivo(String nombre_archivo) {
+    public static boolean crearArchivo(String nombre_archivo) {
         try {
-            FileWriter escribir = new FileWriter(nombre_archivo, true);
+            File archivo = new File(nombre_archivo);
+            boolean existe = archivo.exists(); // true si ya existía
+            FileWriter escribir = new FileWriter(archivo, true); // abrimos/creamos
             escribir.close();
+            // devolvemos true solo si NO existía antes
+            return !existe;
         } catch (SecurityException e) {
             System.out.println("No tienes permisos para escribir en esta carpeta");
         } catch (NullPointerException e) {
@@ -22,9 +26,11 @@ public class GestorArchivos {
         } catch (IOException e) {
             System.out.println("Ha habido problemas de entrada y salida: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Ha habido problemas generales" + e.getMessage());
+            System.out.println("Ha habido problemas generales: " + e.getMessage());
         }
+        return false;
     }
+
 
     /**
      * Esta función permite escribir un archivo  manejando todos los casos de excepciones , si el archivo no existe va a dar error y además
@@ -101,7 +107,7 @@ public class GestorArchivos {
                 // Creamos una nueva reserva usando los índices que encontramos antes
                 // trim() elimina espacios al inicio o al final por seguridad
                 if (destinoCol != -1) {
-                    new Reservas(datos[numeroAsientoCol].trim(), datos[nombrePasajeroCol].trim(), datos[claseCol].trim() , datos[destinoCol].trim());
+                    new Reservas(datos[numeroAsientoCol].trim(), datos[nombrePasajeroCol].trim(), datos[claseCol].trim(), datos[destinoCol].trim());
                 } else {
                     new Reservas(datos[numeroAsientoCol].trim(), datos[nombrePasajeroCol].trim(), datos[claseCol].trim());
                 }
@@ -121,5 +127,6 @@ public class GestorArchivos {
             System.out.println("Ha habido un error inesperado: " + e.getMessage());
         }
     }
+
 }
 

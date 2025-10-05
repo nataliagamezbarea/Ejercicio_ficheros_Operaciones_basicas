@@ -15,14 +15,7 @@ public class SistemaGestionVuelo {
         GestorArchivos.comprobarEncabezados(archivoMaestro, "NumeroAsiento,NombrePasajero,Clase,Destino");
 
         // Datos de las reservas que vamos a escribir
-        String[] datosReservas = {
-                "12A, Juan Pérez, Economy, Madrid",
-                "14B, María López, Business, París",
-                "21C, Carlos García, Economy, Madrid",
-                "05D, Ana Sánchez, Business, Londres",
-                "19E, Luis Gómez, Economy, París",
-                "08F, Sofía Vargas, Economy, Londres"
-        };
+        String[] datosReservas = {"12A, Juan Pérez, Economy, Madrid", "14B, María López, Business, París", "21C, Carlos García, Economy, Madrid", "05D, Ana Sánchez, Business, Londres", "19E, Luis Gómez, Economy, París", "08F, Sofía Vargas, Economy, Londres"};
 
         // Escribir cada línea de reserva en el archivo maestro
         for (String linea : datosReservas) {
@@ -32,9 +25,11 @@ public class SistemaGestionVuelo {
         // Leer el archivo maestro y crear las instancias de Reservas
         GestorArchivos.leeryCrearInstanciasDesdeArchivo(archivoMaestro);
 
+        System.out.println("Archivo: reservas_maestro.txt - Total reservas: " + Reservas.getTotalReservas());
+
         // Crear archivos separados para cada destino y escribir las reservas correspondientes
+        // Primero creamos los archivos y escribimos las reservas
         for (Reservas r : Reservas.getListaReservas()) {
-            // Nombre del archivo para cada destino en minúsculas
             String archivoPorDestino = "src/Ejercicio2/reserva_" + r.getDestino().toLowerCase() + ".txt";
 
             // Crear el archivo si no existe
@@ -45,6 +40,12 @@ public class SistemaGestionVuelo {
 
             // Escribir la línea en el archivo correspondiente
             GestorArchivos.escribirArchivo(archivoPorDestino, datos);
+        }
+
+       // Luego imprimimos el nombre de cada archivo con la cantidad de reservas
+        for (String destino : Reservas.getDestinos()) { // getDestinos() devuelve los destinos únicos
+            int cantidad = Reservas.getCantidadPorDestino(destino);
+            System.out.println("Archivo: reserva_" + destino.toLowerCase() + ".txt - Total reservas: " + cantidad);
         }
     }
 }
