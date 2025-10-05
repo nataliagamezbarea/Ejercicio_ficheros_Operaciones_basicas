@@ -1,14 +1,15 @@
-package Ejercicio1;
-
+package Ejercicio2;
 
 import utilidades.GestorArchivos;
 import utilidades.Reservas;
 
+import java.util.List;
 
-public class SistemaReservas {
+
+public class SistemaGestionVuelo {
     public static void main(String[] args) {
         // variable para el nombre del archivo
-        String nombre_archivo = "src/Ejercicio1/reservas.txt" ;
+        String nombre_archivo = "src/Ejercicio2/reservas_maestro.txt" ;
 
 
         // crear archivo
@@ -16,12 +17,15 @@ public class SistemaReservas {
 
 
         // comprobar los encabezados del archivo
-        GestorArchivos.comprobarEncabezados(nombre_archivo , "NumeroAsiento,NombrePasajero,Clase");
+        GestorArchivos.comprobarEncabezados(nombre_archivo , "NumeroAsiento,NombrePasajero,Clase,Destino");
         // hacemos una lista de los datos a escribir
         String [] datosEscribir = {
-                "12A,Juan Pérez,Economy",
-                "14B,María López,Business",
-                "21C,Carlos García,Economy"
+                "12A, Juan Pérez, Economy, Madrid",
+                "14B, María López, Business, París",
+                "21C, Carlos García, Economy, Madrid",
+                "05D, Ana Sánchez, Business, Londres",
+                "19E, Luis Gómez, Economy, París",
+                "08F, Sofía Vargas, Economy, Londres"
         };
 
 
@@ -31,11 +35,25 @@ public class SistemaReservas {
         }
         // que cree el archivo y crea instancias desde el archivo
         GestorArchivos.leeryCrearInstanciasDesdeArchivo(nombre_archivo);
-        // muestra todas las reservas
-        Reservas.getMostrarReservas();
-        // ahora muestra la cantidad de las reservas
-        System.out.println("El numero total de reservas es de: " +  Reservas.getTotalReservas());
-        // ahora utiliza la funcion para obtener el total de las reservas de una clase
-        System.out.println("El número total de reservas de la clase Business es de: " + Reservas.getCantidadReservasClase("Business"));
+
+        for (String destino : Reservas.getDestinos()) {
+            String archivoDestino = "src/Ejercicio2/reserva_" + destino.toLowerCase() + ".txt";
+            GestorArchivos.crearArchivo(archivoDestino);
+        }
+
+
+        for (Reservas r : Reservas.getReservas()) {
+            String destino = r.getDestino().toLowerCase(); // destino en minúsculas
+            String archivoDestino = "src/Ejercicio2/reserva_" + destino + ".txt";
+
+            // Crear el archivo si no existe
+            GestorArchivos.crearArchivo(archivoDestino);
+
+            // Escribir la reserva en el archivo correspondiente
+            GestorArchivos.escribirArchivo(archivoDestino, r.getNumeroAsiento() + ", " + r.getNombrePasajero() + ", " + r.getClase() + ", " + r.getDestino());
+        }
+
+
+
     }
 }

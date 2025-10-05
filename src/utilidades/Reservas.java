@@ -1,5 +1,6 @@
 package utilidades;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class Reservas {
@@ -88,6 +89,10 @@ public class Reservas {
         }
     }
 
+    public static ArrayList<Reservas> getReservas() {
+        return reservas;
+    }
+
     /**
      * Cuenta cuántas reservas hay de una clase específica
      */
@@ -110,4 +115,17 @@ public class Reservas {
     public static int getTotalReservas() {
         return contador_reservas;
     }
+
+
+    public static List<String> getDestinos() {
+        List<String> destinos = new ArrayList<>();
+        for (Reservas r : reservas) {
+            String destino = r.getDestino();
+            if (!destinos.contains(destino)) { // solo añadimos si no está ya
+                destinos.add(destino);
+            }
+        }
+        return destinos;
+    }
+
 }
