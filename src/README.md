@@ -54,6 +54,22 @@ Para probar el proyecto solo necesitas abrirlo en IntelliJ IDEA o cualquier IDE 
 
 Después de ejecutar el programa, puedes revisar los archivos de texto generados en la carpeta `src` para ver los resultados.
 
+
+## Uso de Inteligencia Artificial (ChatGPT)
+
+- Chat: https://chatgpt.com/share/68e2c4b1-06b8-800b-a6e1-c4378a1a95ee
+
+Usé ChatGPT para resolver dudas sobre Java, manejo de archivos, creación de instancias de `Reservas`, validación de datos y mostrar resultados en consola. Su uso se documentó y gestionó correctamente para guiar la implementación y aprendizaje.
+
+
+
+## Problemas
+
+Durante el desarrollo se encontraron algunos inconvenientes comunes:
+- Algunos archivos no existían o tenían encabezados faltantes, por lo que se implementó su creación y verificación automática.
+- Se detectaron líneas incompletas o mal formateadas en los archivos, manejadas con validación y registro de errores.
+- Se solucionaron posibles errores de lectura/escritura y espacios extra en los datos para asegurar la correcta creación de objetos y clasificación.
+
 ## Autoras
 
 Natalia Gámez Barea  
