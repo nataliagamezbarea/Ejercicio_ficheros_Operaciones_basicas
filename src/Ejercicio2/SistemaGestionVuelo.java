@@ -1,7 +1,8 @@
 package Ejercicio2;
 
 import utilidades.GestorArchivos;
-import utilidades.Reservas;
+import utilidades.GestorReservas;
+import utilidades.Reserva;
 
 /**
  * Programa principal para gestionar reservas de vuelo.
@@ -46,10 +47,10 @@ public class SistemaGestionVuelo {
         GestorArchivos.leeryCrearInstanciasDesdeArchivo(archivoMaestro);
 
         // Mostrar total de reservas en consola
-        System.out.println("Archivo: reservas_maestro.txt - Total reservas: " + Reservas.getTotalReservas());
+        System.out.println("Archivo: reservas_maestro.txt - Total reservas: " + GestorReservas.totalReservas());
 
         // Crear archivos separados para cada destino y escribir las reservas correspondientes
-        for (Reservas r : Reservas.getListaReservas()) {
+        for (Reserva r : GestorReservas.getListaReservas()) {
             // Nombre del archivo según destino
             String archivoPorDestino = "src/Ejercicio2/reserva_" + r.getDestino().toLowerCase() + ".txt";
 
@@ -64,8 +65,8 @@ public class SistemaGestionVuelo {
         }
 
         // Mostrar en consola la cantidad de reservas por cada archivo/destino
-        for (String destino : Reservas.getDestinos()) { // getDestinos() devuelve los destinos únicos
-            int cantidad = Reservas.getCantidadPorDestino(destino);
+        for (String destino : GestorReservas.getDestinos()) { // getDestinos() devuelve los destinos únicos
+            int cantidad = GestorReservas.cantidadPorDestino(destino);
             System.out.println("Archivo: reserva_" + destino.toLowerCase() + ".txt - Total reservas: " + cantidad);
         }
     }

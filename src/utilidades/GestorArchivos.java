@@ -79,19 +79,30 @@ public class GestorArchivos {
      *
      * @param nombre_archivo Ruta completa del archivo de reservas.
      */
+    /**
+     * Lee un archivo de reservas y crea instancias de la clase Reserva.
+     * Cada reserva creada se agrega automáticamente al GestorReservas.
+     *
+     * @param nombre_archivo Ruta completa del archivo de reservas.
+     */
     public static void leeryCrearInstanciasDesdeArchivo(String nombre_archivo) {
-        try {
-            BufferedReader lector = new BufferedReader(new FileReader(nombre_archivo));
-            List<String> listaColumnas = Arrays.asList(lector.readLine().split(","));
+        try (BufferedReader lector = new BufferedReader(new FileReader(nombre_archivo))) {
+            // Leer encabezados
+            String primeraLinea = lector.readLine();
+            if (primeraLinea == null) {
+                System.out.println("El archivo está vacío.");
+                return;
+            }
+
+            List<String> listaColumnas = Arrays.asList(primeraLinea.split(","));
 
             int numeroAsientoCol = listaColumnas.indexOf("NumeroAsiento");
             int nombrePasajeroCol = listaColumnas.indexOf("NombrePasajero");
             int claseCol = listaColumnas.indexOf("Clase");
-            int destinoCol = listaColumnas.indexOf("Destino");
+            int destinoCol = listaColumnas.indexOf("Destino"); // Puede no existir
 
             if (numeroAsientoCol == -1 || nombrePasajeroCol == -1 || claseCol == -1) {
-                System.out.println("Error: el archivo debe contener los encabezados 'NumeroAsiento, NombrePasajero, Clase'.");
-                lector.close();
+                System.out.println("Error: el archivo debe contener los encabezados 'NumeroAsiento,NombrePasajero,Clase'.");
                 return;
             }
 
@@ -99,19 +110,29 @@ public class GestorArchivos {
             while ((linea = lector.readLine()) != null) {
                 String[] datos = linea.split(",");
 
-                if (destinoCol != -1) {
-                    new Reservas(datos[numeroAsientoCol].trim(), datos[nombrePasajeroCol].trim(),
-                            datos[claseCol].trim(), datos[destinoCol].trim());
+                // Crear la reserva según si tiene destino o no
+                Reserva r;
+                if (destinoCol != -1 && destinoCol < datos.length) {
+                    r = new Reserva(
+                            datos[numeroAsientoCol].trim(),
+                            datos[nombrePasajeroCol].trim(),
+                            datos[claseCol].trim(),
+                            datos[destinoCol].trim()
+                    );
                 } else {
-                    new Reservas(datos[numeroAsientoCol].trim(), datos[nombrePasajeroCol].trim(),
-                            datos[claseCol].trim());
+                    r = new Reserva(
+                            datos[numeroAsientoCol].trim(),
+                            datos[nombrePasajeroCol].trim(),
+                            datos[claseCol].trim()
+                    );
                 }
+
+                // Agregar la reserva al GestorReservas
+                GestorReservas.agregarReserva(r);
             }
-            lector.close();
+
         } catch (FileNotFoundException e) {
             System.out.println("El archivo no existe o la ruta es incorrecta.");
-        } catch (NullPointerException e) {
-            System.out.println("El nombre del archivo no puede estar vacío.");
         } catch (IOException e) {
             System.out.println("Ha habido problemas de entrada y salida: " + e.getMessage());
         } catch (Exception e) {
@@ -168,7 +189,7 @@ public class GestorArchivos {
                 }
 
                 // Crear instancia de reserva válida
-                new Reservas(datosCompletos[0], datosCompletos[1], datosCompletos[2], datosCompletos[3]);
+                new Reserva(datosCompletos[0], datosCompletos[1], datosCompletos[2], datosCompletos[3]);
 
                 // Guardar reserva válida en archivo por destino
                 String archivoPorDestino = "src/Ejercicio3/reserva_" + datosCompletos[3].toLowerCase() + ".txt";

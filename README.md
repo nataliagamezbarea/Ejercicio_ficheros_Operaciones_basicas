@@ -74,7 +74,10 @@ En este ejercicio se manejan **reservas con posibles errores**.
 ---
 
 ### **utilidades**
-Este paquete tiene dos clases: `GestorArchivos` (todas las funciones para crear, leer y escribir archivos, además de procesar errores) y `Reservas` (representa cada reserva como un objeto y lleva la lista de todas).
+Este paquete tiene tres clases:
+- `GestorArchivos` → contiene todas las funciones para crear, leer y escribir archivos, además de procesar errores en las reservas.
+- `GestorReservas` → gestiona la lista global de reservas, permite agregarlas, contarlas y obtener resúmenes por clase o destino.
+- `Reserva` → representa cada reserva como un objeto individual, con sus atributos (`numeroAsiento`, `nombrePasajero`, `clase`, `destino`) y métodos para acceder a ellos.
 
 <p align="center">
   <img src="src/imagenes/Utilidades_estructura.png" alt="Estructura de utilidades" width="500"/>

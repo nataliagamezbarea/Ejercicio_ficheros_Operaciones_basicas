@@ -1,13 +1,14 @@
 package Ejercicio1;
 
 import utilidades.GestorArchivos;
-import utilidades.Reservas;
+import utilidades.GestorReservas;
+import utilidades.Reserva;
 
 /**
  * Programa principal para crear y gestionar reservas básicas.
  * - Crea un archivo de reservas.
  * - Escribe algunas reservas de ejemplo.
- * - Crea instancias de la clase Reservas a partir del archivo.
+ * - Crea instancias de la clase Reserva a partir del archivo.
  * - Muestra todas las reservas en consola y el total.
  * - Calcula el total de reservas de la clase Business.
  */
@@ -40,17 +41,18 @@ public class SistemaReservas {
             GestorArchivos.escribirArchivo(nombre_archivo, linia);
         }
 
-        // Crear instancias de la clase Reservas a partir del archivo
+        // Crear instancias de la clase Reserva a partir del archivo
+        // Esta función ahora debe agregar automáticamente cada reserva al GestorReservas
         GestorArchivos.leeryCrearInstanciasDesdeArchivo(nombre_archivo);
 
         // Mostrar todas las reservas en consola
-        Reservas.getMostrarReservas();
+        GestorReservas.mostrarReservas();
 
         // Mostrar el número total de reservas
-        System.out.println("El numero total de reservas es de: " + Reservas.getTotalReservas());
+        System.out.println("El número total de reservas es de: " + GestorReservas.totalReservas());
 
         // Mostrar el total de reservas de la clase Business
         System.out.println("El número total de reservas de la clase Business es de: " +
-                Reservas.getCantidadReservasClase("Business"));
+                GestorReservas.cantidadReservasClase("Business"));
     }
 }

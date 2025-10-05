@@ -1,7 +1,8 @@
 package Ejercicio2;
 
 import utilidades.GestorArchivos;
-import utilidades.Reservas;
+import utilidades.GestorReservas;
+import utilidades.Reserva;
 
 /**
  * Programa principal para gestionar reservas de vuelo con posibles errores.
@@ -48,8 +49,8 @@ public class SistemaGestionVueloConErrores {
         GestorArchivos.procesarReservasConErrores(archivoMaestro);
 
         // Mostrar un resumen de las reservas válidas por destino
-        for (String destino : Reservas.getDestinos()) {
-            int cantidad = Reservas.getCantidadPorDestino(destino);
+        for (String destino : GestorReservas.getDestinos()) {
+            int cantidad = GestorReservas.cantidadPorDestino(destino);
             System.out.println("Archivo: reserva_" + destino.toLowerCase() + ".txt - Total reservas: " + cantidad);
         }
 
