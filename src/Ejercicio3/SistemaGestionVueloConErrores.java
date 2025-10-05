@@ -3,7 +3,19 @@ package Ejercicio2;
 import utilidades.GestorArchivos;
 import utilidades.Reservas;
 
+/**
+ * Programa principal para gestionar reservas de vuelo con posibles errores.
+ * - Crea un archivo maestro con reservas (algunas pueden estar incompletas o incorrectas).
+ * - Valida las reservas y separa las válidas de las inválidas.
+ * - Las reservas válidas se guardan en archivos por destino.
+ * - Las reservas con errores se registran en un log de errores.
+ */
 public class SistemaGestionVueloConErrores {
+
+    /**
+     * Método principal que ejecuta la gestión de reservas con errores.
+     * @param args Parámetros de línea de comandos (no se usan)
+     */
     public static void main(String[] args) {
         // Archivo maestro con posibles errores
         String archivoMaestro = "src/Ejercicio3/reservas_maestro_con_errores.txt";
@@ -11,10 +23,10 @@ public class SistemaGestionVueloConErrores {
         // Crear el archivo si no existe
         GestorArchivos.crearArchivo(archivoMaestro);
 
-        // Comprobar encabezados
+        // Comprobar encabezados y añadirlos si el archivo está vacío
         GestorArchivos.comprobarEncabezados(archivoMaestro, "NumeroAsiento,NombrePasajero,Clase,Destino");
 
-        // Datos de ejemplo (con algunas líneas erróneas)
+        // Datos de ejemplo (algunas líneas están incompletas a propósito)
         String[] datosReservas = {
                 "12A, Juan Pérez, Economy, Madrid",         // correcta
                 "14B, María López, Business",             // falta destino
@@ -27,21 +39,21 @@ public class SistemaGestionVueloConErrores {
                 "11H, , , "                               // completamente vacía excepto comas
         };
 
-        // Escribir datos iniciales
+        // Escribir los datos iniciales en el archivo maestro
         for (String linea : datosReservas) {
             GestorArchivos.escribirArchivo(archivoMaestro, linea);
         }
 
-        // Procesar reservas validando errores
+        // Procesar el archivo maestro: crear reservas válidas y registrar errores
         GestorArchivos.procesarReservasConErrores(archivoMaestro);
 
-        // Mostrar resumen por destino
+        // Mostrar un resumen de las reservas válidas por destino
         for (String destino : Reservas.getDestinos()) {
             int cantidad = Reservas.getCantidadPorDestino(destino);
             System.out.println("Archivo: reserva_" + destino.toLowerCase() + ".txt - Total reservas: " + cantidad);
         }
 
-        // Mostrar contenido del registro de errores
+        // Mostrar el contenido del registro de errores en consola
         System.out.println("\nContenido del registro de errores:");
         GestorArchivos.mostrarRegistroErrores("src/Ejercicio3/registro_errores.log");
     }

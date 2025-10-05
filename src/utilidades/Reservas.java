@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 public class Reservas {
-    // guarda el numero de asiento de cada reserva
+    // guarda el número de asiento de cada reserva
     private final String numeroAsiento;
     // guarda el nombre del pasajero
     private final String nombrePasajero;
@@ -19,13 +19,26 @@ public class Reservas {
     // lista donde se almacenan todas las reservas como objetos
     private static final ArrayList<Reservas> listaReservas = new ArrayList<>();
 
+    /**
+     * Constructor simplificado de la clase Reservas.
+     * Crea una reserva sin especificar destino.
+     *
+     * @param numeroAsiento El número de asiento del pasajero (ej. "12A")
+     * @param nombrePasajero El nombre completo del pasajero
+     * @param clase La clase del pasajero (ej. "Economy", "Business")
+     */
     public Reservas(String numeroAsiento, String nombrePasajero, String clase) {
         this(numeroAsiento, nombrePasajero, clase, "");
     }
 
     /**
-     * Constructor de la clase Reservas
-     * aqui se inicializan los atributos y se actualiza la lista y contador
+     * Constructor completo de la clase Reservas.
+     * Inicializa todos los atributos y añade la reserva a la lista global.
+     *
+     * @param numeroAsiento El número de asiento del pasajero
+     * @param nombrePasajero El nombre completo del pasajero
+     * @param clase La clase del pasajero
+     * @param destino El destino del pasajero (ej. "Madrid")
      */
     public Reservas(String numeroAsiento, String nombrePasajero, String clase, String destino) {
         this.numeroAsiento = numeroAsiento;
@@ -33,43 +46,71 @@ public class Reservas {
         this.clase = clase;
         this.destino = destino;
 
-        // incrementamos el contador de reservas
+        // Incrementamos el contador de reservas
         contador_reservas++;
 
-        // agregamos la reserva a la lista como objeto
+        // Agregamos la reserva a la lista global
         listaReservas.add(this);
     }
 
+    /**
+     * Devuelve el número de asiento de la reserva.
+     *
+     * @return El número de asiento como String
+     */
     public String getNumeroAsiento() {
         return numeroAsiento;
     }
 
+    /**
+     * Devuelve el nombre del pasajero de la reserva.
+     *
+     * @return El nombre del pasajero
+     */
     public String getNombrePasajero() {
         return nombrePasajero;
     }
 
+    /**
+     * Devuelve la clase del pasajero (Economy, Business, etc.).
+     *
+     * @return La clase de la reserva
+     */
     public String getClase() {
         return clase;
     }
 
+    /**
+     * Devuelve el destino de la reserva.
+     *
+     * @return El destino como String
+     */
     public String getDestino() {
         return destino;
     }
 
-
+    /**
+     * Comprueba si al menos una reserva tiene destino asignado.
+     *
+     * @return true si hay alguna reserva con destino, false si no
+     */
     public static boolean getHayDestino() {
         boolean hayDestino = false;
         for (Reservas reserva : listaReservas) {
-            if (!reserva.getDestino().isEmpty()) { // <--- uso getter
+            if (!reserva.getDestino().isEmpty()) {
                 hayDestino = true;
-                break; // no hace falta seguir buscando
+                break;
             }
         }
         return hayDestino;
     }
 
-    // convierte la reserva en un String separado por comas
-    // formato: numeroAsiento,nombrePasajero,clase , destino
+    /**
+     * Convierte la reserva en un String separado por comas.
+     * Si hay destinos, se incluyen; si no, solo asiento, nombre y clase.
+     *
+     * @return La reserva en formato String
+     */
     @Override
     public String toString() {
         if (Reservas.getHayDestino()) {
@@ -79,33 +120,38 @@ public class Reservas {
         }
     }
 
-
     /**
-     * Muestra todas las reservas en formato tabulado
+     * Muestra todas las reservas registradas en consola en un formato tabulado.
+     * Cada columna tiene ancho fijo para que sea legible.
      */
     public static void getMostrarReservas() {
         System.out.printf("%-20s%-20s%-20s%n", "NumeroAsiento", "NombrePasajero", "Clase");
 
         for (Reservas reserva : listaReservas) {
-            // imprimimos cada columna con ancho fijo para que quede alineado
             System.out.printf("%-20s%-20s%-20s%n", reserva.getNumeroAsiento(), reserva.getNombrePasajero(), reserva.getClase());
         }
     }
 
+    /**
+     * Devuelve una copia de la lista de reservas.
+     * Esto evita que se pueda modificar la lista original desde fuera de la clase.
+     *
+     * @return Una lista de objetos Reservas
+     */
     public static ArrayList<Reservas> getListaReservas() {
-        // NOTA: SIEMPRE CREAR UN NUEVO ARRAYLIST SI NO UN USUARIO DESDE
-        // FUERA DE LA CLASE PODRIA ELIMINAR LA LISTA
         return new ArrayList<>(listaReservas);
     }
 
     /**
-     * Cuenta cuántas reservas hay de una clase específica
+     * Cuenta cuántas reservas hay de una clase específica.
+     *
+     * @param claseBuscada La clase que quieres contar (ej. "Business")
+     * @return La cantidad de reservas de esa clase
      */
     public static int getCantidadReservasClase(String claseBuscada) {
         int contadorClase = 0;
 
         for (Reservas reserva : listaReservas) {
-            // partes[2] corresponde a la columna "Clase"
             if (reserva.getClase().equalsIgnoreCase(claseBuscada)) {
                 contadorClase++;
             }
@@ -114,43 +160,37 @@ public class Reservas {
     }
 
     /**
-     * devuelve el total de reservas creadas
+     * Devuelve el total de reservas creadas.
+     *
+     * @return Número total de reservas
      */
     public static int getTotalReservas() {
         return contador_reservas;
     }
 
-
+    /**
+     * Devuelve una lista de destinos únicos de todas las reservas.
+     *
+     * @return Lista de destinos sin duplicados
+     */
     public static List<String> getDestinos() {
-        // Creamos un Set para almacenar destinos únicos
-        // Un Set no permite elementos duplicados
         Set<String> destinosUnicos = new HashSet<>();
 
-        // Recorremos todas las reservas
         for (Reservas r : listaReservas) {
-            // Obtenemos el destino de cada reserva
             String destino = r.getDestino();
-
-            // Solo añadimos el destino si NO está vacío
-            // Esto evita que tengamos "" en la lista de destinos
             if (!destino.isEmpty()) {
                 destinosUnicos.add(destino);
             }
         }
 
-        // Convertimos el Set a List
-        // Esto nos permite devolver los destinos en una lista
-        List<String> destinos = new ArrayList<>(destinosUnicos);
-
-        // Devolvemos la lista final de destinos únicos
-        return destinos;
+        return new ArrayList<>(destinosUnicos);
     }
 
     /**
-     * Devuelve un número de reservas por destino.
+     * Cuenta cuántas reservas hay para un destino específico.
      *
-     * @param destinoBuscado el destino a contar
-     * @return la cantidad de reservas para ese destino
+     * @param destinoBuscado El destino que quieres contar (ej. "Madrid")
+     * @return Número de reservas para ese destino
      */
     public static int getCantidadPorDestino(String destinoBuscado) {
         int contadorDestino = 0;
@@ -161,5 +201,4 @@ public class Reservas {
         }
         return contadorDestino;
     }
-
 }
