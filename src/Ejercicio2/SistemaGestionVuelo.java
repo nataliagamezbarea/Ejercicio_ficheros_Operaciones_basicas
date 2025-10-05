@@ -15,7 +15,14 @@ public class SistemaGestionVuelo {
         GestorArchivos.comprobarEncabezados(archivoMaestro, "NumeroAsiento,NombrePasajero,Clase,Destino");
 
         // Datos de las reservas que vamos a escribir
-        String[] datosReservas = {"12A, Juan Pérez, Economy, Madrid", "14B, María López, Business, París", "21C, Carlos García, Economy, Madrid", "05D, Ana Sánchez, Business, Londres", "19E, Luis Gómez, Economy, París", "08F, Sofía Vargas, Economy, Londres"};
+        String[] datosReservas = {
+                "12A, Juan Pérez, Economy, Madrid",
+                "14B, María López, Business, París",
+                "21C, Carlos García, Economy, Madrid",
+                "05D, Ana Sánchez, Business, Londres",
+                "19E, Luis Gómez, Economy, París",
+                "08F, Sofía Vargas, Economy, Londres"
+        };
 
         // Escribir cada línea de reserva en el archivo maestro
         for (String linea : datosReservas) {

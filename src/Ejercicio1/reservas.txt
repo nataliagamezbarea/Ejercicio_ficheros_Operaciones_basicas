@@ -1,4 +1,0 @@
-NumeroAsiento,NombrePasajero,Clase
-12A,Juan Pérez,Economy
-14B,María López,Business
-21C,Carlos García,Economy

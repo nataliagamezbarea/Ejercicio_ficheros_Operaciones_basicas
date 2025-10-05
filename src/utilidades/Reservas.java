@@ -73,11 +73,12 @@ public class Reservas {
     @Override
     public String toString() {
         if (Reservas.getHayDestino()) {
-            return String.join(",", getNombrePasajero(), getClase(), getDestino());
+            return String.join(",", getNumeroAsiento(), getNombrePasajero(), getClase(), getDestino());
         } else {
-            return String.join(",", getNombrePasajero(), getClase());
+            return String.join(",", getNumeroAsiento(), getNombrePasajero(), getClase());
         }
     }
+
 
     /**
      * Muestra todas las reservas en formato tabulado

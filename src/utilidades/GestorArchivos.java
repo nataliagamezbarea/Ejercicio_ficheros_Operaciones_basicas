@@ -3,7 +3,8 @@ package utilidades;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class GestorArchivos {
     /**
@@ -31,7 +32,6 @@ public class GestorArchivos {
         return false;
     }
 
-
     /**
      * Esta función permite escribir un archivo  manejando todos los casos de excepciones , si el archivo no existe va a dar error y además
      * se añadirá al escribir cada linia una linia de salto al final
@@ -53,7 +53,7 @@ public class GestorArchivos {
         } catch (IOException e) {
             System.out.println("Ha habido problemas de entrada y salida: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Ha habido problemas generales" + e.getMessage());
+            System.out.println("Ha habido problemas generales: " + e.getMessage());
         }
     }
 
@@ -70,7 +70,6 @@ public class GestorArchivos {
         }
     }
 
-
     /**
      * Lee un archivo de reservas, valida que tenga los encabezados correctos
      * y crea instancias de la clase Reservas a partir de cada línea de datos.
@@ -79,42 +78,30 @@ public class GestorArchivos {
      */
     public static void leeryCrearInstanciasDesdeArchivo(String nombre_archivo) {
         try {
-            // Creamos un BufferedReader para leer el archivo línea por línea
             BufferedReader lector = new BufferedReader(new FileReader(nombre_archivo));
-
-            // Leemos la primera línea del archivo (encabezados),
-            // la separamos por comas y la convertimos en una lista para poder usar indexOf
             List<String> listaColumnas = Arrays.asList(lector.readLine().split(","));
 
-            // Obtenemos la posición de cada columna clave
             int numeroAsientoCol = listaColumnas.indexOf("NumeroAsiento");
             int nombrePasajeroCol = listaColumnas.indexOf("NombrePasajero");
             int claseCol = listaColumnas.indexOf("Clase");
             int destinoCol = listaColumnas.indexOf("Destino");
-            // Validamos que los encabezados existen; si falta alguno, mostramos un mensaje y salimos
+
             if (numeroAsientoCol == -1 || nombrePasajeroCol == -1 || claseCol == -1) {
                 System.out.println("Error: el archivo debe contener los encabezados 'NumeroAsiento, NombrePasajero, Clase'.");
-                lector.close(); // cerramos el lector antes de salir
+                lector.close();
                 return;
             }
 
-            // Leemos cada línea restante del archivo y creamos una instancia de Reservas
             String linea;
             while ((linea = lector.readLine()) != null) {
-                // Separamos los datos de la línea usando la coma como separador
                 String[] datos = linea.split(",");
 
-                // Creamos una nueva reserva usando los índices que encontramos antes
-                // trim() elimina espacios al inicio o al final por seguridad
                 if (destinoCol != -1) {
                     new Reservas(datos[numeroAsientoCol].trim(), datos[nombrePasajeroCol].trim(), datos[claseCol].trim(), datos[destinoCol].trim());
                 } else {
                     new Reservas(datos[numeroAsientoCol].trim(), datos[nombrePasajeroCol].trim(), datos[claseCol].trim());
                 }
-
             }
-
-            // Cerramos el lector después de terminar de leer el archivo
             lector.close();
 
         } catch (FileNotFoundException e) {
@@ -128,5 +115,91 @@ public class GestorArchivos {
         }
     }
 
-}
 
+    /**
+     * Procesa un archivo de reservas con posibles errores.
+     * - Valida cada línea: debe tener 4 campos (asiento, nombre, clase, destino).
+     * - Si la línea es válida, crea la reserva y la escribe en su archivo de destino.
+     * - Si falta algún campo o la línea está vacía, la registra en registro_errores.log.
+     */
+
+    public static void procesarReservasConErrores(String archivoMaestro) {
+        String archivoErrores = "src/Ejercicio3/registro_errores.log";
+        crearArchivo(archivoErrores); // Crear archivo de errores si no existe
+
+        try (BufferedReader lector = new BufferedReader(new FileReader(archivoMaestro))) {
+            String encabezados = lector.readLine(); // Ignoramos encabezados
+
+            String linea;
+            while ((linea = lector.readLine()) != null) {
+                String[] datos = linea.split(",");
+
+                // Array con los nombres de los campos esperados
+                String[] nombresCampos = {"NumeroAsiento", "NombrePasajero", "Clase", "Destino"};
+
+                // Creamos un array de 4 elementos para poder identificar campos faltantes
+                String[] datosCompletos = new String[4];
+                for (int i = 0; i < 4; i++) {
+                    if (i < datos.length) {
+                        datosCompletos[i] = datos[i].trim();
+                    } else {
+                        datosCompletos[i] = ""; // Si no hay dato, ponemos vacío
+                    }
+                }
+
+                boolean lineaValida = true;
+                StringBuilder descripcionError = new StringBuilder();
+
+                // Revisamos cada campo
+                for (int i = 0; i < 4; i++) {
+                    if (datosCompletos[i].isEmpty()) {
+                        lineaValida = false;
+                        if (!descripcionError.isEmpty()) {
+                            descripcionError.append("; "); // Separador si hay más de un error
+                        }
+                        descripcionError.append("Falta el campo '").append(nombresCampos[i]).append("'");
+                    }
+                }
+
+                if (!lineaValida) {
+                    // Añadimos fecha y hora actual
+                    String fechaHora = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
+                    escribirArchivo(archivoErrores, fechaHora + ", " + linea + ", " + descripcionError.toString());
+                    continue; // Saltamos la línea inválida
+                }
+
+                // Línea válida: creamos la reserva
+                new Reservas(datosCompletos[0], datosCompletos[1], datosCompletos[2], datosCompletos[3]);
+
+                // Crear archivo de destino según el destino de la reserva
+                String archivoPorDestino = "src/Ejercicio3/reserva_" + datosCompletos[3].toLowerCase() + ".txt";
+                crearArchivo(archivoPorDestino);
+
+                // Guardamos la línea válida en el archivo correspondiente
+                escribirArchivo(archivoPorDestino, linea);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error: " + e.getMessage());
+        }
+    }
+
+
+    /**
+     * Muestra el contenido del archivo de registro de errores por consola
+     *
+     * @param archivoErrores Ruta del archivo de registro de errores
+     */
+    public static void mostrarRegistroErrores(String archivoErrores) {
+        try (BufferedReader lector = new BufferedReader(new FileReader(archivoErrores))) {
+            String linea;
+            while ((linea = lector.readLine()) != null) {
+                System.out.println(linea); // Se muestra línea por línea
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("El archivo de errores no existe.");
+        } catch (IOException e) {
+            System.out.println("Error de entrada/salida: " + e.getMessage());
+        }
+    }
+}
