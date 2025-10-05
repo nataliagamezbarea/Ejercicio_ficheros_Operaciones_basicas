@@ -24,24 +24,47 @@ El código está en la carpeta `src` y se divide en varios paquetes:
 - Primero se comprueban los encabezados con `GestorArchivos.comprobarEncabezados()`. 
 - Luego se leen las reservas del archivo con `GestorArchivos.leeryCrearInstanciasDesdeArchivo()` y se crean objetos `Reservas`. 
 - Finalmente, se muestran todas las reservas en consola, se imprime el total con `Reservas.getTotalReservas()` y se cuenta cuántas son de clase Business con `Reservas.getCantidadReservasClase("Business")`.
-  ![Vista del archivo de reservas](imagenes/Ejercicio1.png)
+  
+
+![Vista del archivo de reservas](imagenes/Ejercicio1.png)
+
+
 ****
 - **Ejercicio2**: Este ejercicio amplía el anterior incluyendo el **destino** de cada reserva. 
+
+
     ![Estructura de Ejercicio2](imagenes/Ejercicio2_estructura.png)
+
 - Primero se crea el archivo maestro `reservas_maestro.txt` y se añaden todas las reservas usando `GestorArchivos.escribirArchivo()`. 
 - Luego se leen las reservas con `GestorArchivos.leeryCrearInstanciasDesdeArchivo()` para generar objetos `Reservas`. 
 - Después, el programa crea archivos separados para cada destino y escribe en ellos las reservas correspondientes. Finalmente, muestra en consola el total de reservas por archivo/destino usando `Reservas.getCantidadPorDestino()`.
- ![Vista del archivo de reservas](imagenes/Ejercicio2.png)
+ 
+
+![Vista del archivo de reservas](imagenes/Ejercicio2.png)
+
+
 - **Ejercicio3**: En este ejercicio se manejan **reservas con posibles errores**. 
-   ![Estructura de Ejercicio3](imagenes/Ejercicio3_estructura.png)
+   
+![Estructura de Ejercicio3](imagenes/Ejercicio3_estructura.png)
+
+
 - Se lee un archivo maestro con líneas que pueden estar incompletas o mal formateadas usando `GestorArchivos.procesarReservasConErrores()`. 
 - Las reservas válidas se crean como objetos `Reservas` y se escriben en archivos por destino, mientras que las líneas incorrectas se registran en `registro_errores.log`. 
 - Al final, se puede ver en consola tanto las reservas por destino como el contenido del log de errores con `GestorArchivos.mostrarRegistroErrores()`.
-  ![Vista del archivo de reservas](imagenes/Ejercicio3.png)
+  
+ ![Vista del archivo de reservas](imagenes/Ejercicio3.png)
+
+
 - **utilidades**: Este paquete tiene dos clases: `GestorArchivos` (todas las funciones para crear, leer y escribir archivos, además de procesar errores) y `Reservas` (representa cada reserva como un objeto y lleva la lista de todas).
-  ![Estructura de utilidades](imagenes/Utilidades_estructura.png)  
+  
+ ![Estructura de utilidades](imagenes/Utilidades_estructura.png)  
+
+
 Las imágenes usadas en la documentación están en la carpeta `imagenes`, pero no son esenciales para ejecutar el código.
-  ![Estructura de utilidades](imagenes/Imagenes_estructura.png)
+  
+![Estructura de utilidades](imagenes/Imagenes_estructura.png)
+
+
 
 
 ## Ejecución
