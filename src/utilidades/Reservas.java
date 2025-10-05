@@ -1,7 +1,9 @@
 package utilidades;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class Reservas {
     // guarda el numero de asiento de cada reserva
@@ -15,7 +17,7 @@ public class Reservas {
     // contador de todas las reservas que se han creado
     private static int contador_reservas = 0;
     // lista donde se almacenan todas las reservas como objetos
-    private static final ArrayList<Reservas> reservas = new ArrayList<>();
+    private static final ArrayList<Reservas> listaReservas = new ArrayList<>();
 
     public Reservas(String numeroAsiento, String nombrePasajero, String clase) {
         this(numeroAsiento, nombrePasajero, clase, "");
@@ -35,7 +37,7 @@ public class Reservas {
         contador_reservas++;
 
         // agregamos la reserva a la lista como objeto
-        reservas.add(this);
+        listaReservas.add(this);
     }
 
     public String getNumeroAsiento() {
@@ -57,7 +59,7 @@ public class Reservas {
 
     public static boolean getHayDestino() {
         boolean hayDestino = false;
-        for (Reservas reserva : reservas) {
+        for (Reservas reserva : listaReservas) {
             if (!reserva.getDestino().isEmpty()) { // <--- uso getter
                 hayDestino = true;
                 break; // no hace falta seguir buscando
@@ -83,30 +85,31 @@ public class Reservas {
     public static void getMostrarReservas() {
         System.out.printf("%-20s%-20s%-20s%n", "NumeroAsiento", "NombrePasajero", "Clase");
 
-        for (Reservas reserva : reservas) {
+        for (Reservas reserva : listaReservas) {
             // imprimimos cada columna con ancho fijo para que quede alineado
             System.out.printf("%-20s%-20s%-20s%n", reserva.getNumeroAsiento(), reserva.getNombrePasajero(), reserva.getClase());
         }
     }
 
-    public static ArrayList<Reservas> getReservas() {
-        return reservas;
+    public static ArrayList<Reservas> getListaReservas() {
+        // NOTA: SIEMPRE CREAR UN NUEVO ARRAYLIST SI NO UN USUARIO DESDE
+        // FUERA DE LA CLASE PODRIA ELIMINAR LA LISTA
+        return new ArrayList<>(listaReservas);
     }
 
     /**
      * Cuenta cuántas reservas hay de una clase específica
      */
     public static int getCantidadReservasClase(String claseBuscada) {
-        int contador_clase = 0;
+        int contadorClase = 0;
 
-        for (Reservas reserva : reservas) {
+        for (Reservas reserva : listaReservas) {
             // partes[2] corresponde a la columna "Clase"
             if (reserva.getClase().equalsIgnoreCase(claseBuscada)) {
-                contador_clase++;
+                contadorClase++;
             }
         }
-
-        return contador_clase;
+        return contadorClase;
     }
 
     /**
@@ -118,14 +121,29 @@ public class Reservas {
 
 
     public static List<String> getDestinos() {
-        List<String> destinos = new ArrayList<>();
-        for (Reservas r : reservas) {
+        // Creamos un Set para almacenar destinos únicos
+        // Un Set no permite elementos duplicados
+        Set<String> destinosUnicos = new HashSet<>();
+
+        // Recorremos todas las reservas
+        for (Reservas r : listaReservas) {
+            // Obtenemos el destino de cada reserva
             String destino = r.getDestino();
-            if (!destinos.contains(destino)) { // solo añadimos si no está ya
-                destinos.add(destino);
+
+            // Solo añadimos el destino si NO está vacío
+            // Esto evita que tengamos "" en la lista de destinos
+            if (!destino.isEmpty()) {
+                destinosUnicos.add(destino);
             }
         }
+
+        // Convertimos el Set a List
+        // Esto nos permite devolver los destinos en una lista
+        List<String> destinos = new ArrayList<>(destinosUnicos);
+
+        // Devolvemos la lista final de destinos únicos
         return destinos;
     }
+
 
 }
