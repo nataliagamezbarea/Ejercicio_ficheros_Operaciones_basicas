@@ -9,63 +9,84 @@ Este proyecto es una práctica para aprender cómo trabajar con archivos de text
 - **Resumenes**: El programa puede mostrar cuántas reservas hay en total, cuántas hay por clase (por ejemplo, Business) y cuántas hay por destino.
 - **Gestión de errores**: En el tercer ejercicio, si una línea no tiene todos los datos obligatorios, esa reserva no se guarda y en su lugar se apunta en un archivo de errores junto con la hora del fallo.
 
-
 ## Estructura del proyecto
 
 A continuación puedes ver cómo está organizado el proyecto y sus carpetas principales:
 
-![Vista general de la estructura del proyecto](imagenes/Estructura_proyecto.png)
+<p align="center">
+  <img src="imagenes/Estructura_proyecto.png" alt="Vista general de la estructura del proyecto" width="600"/>
+</p>
 
 El código está en la carpeta `src` y se divide en varios paquetes:
 
-- **Ejercicio1**:
-- Este programa crea el archivo `reservas.txt` si no existe y añade algunas reservas de ejemplo usando `GestorArchivos.escribirArchivo()
-  ![Estructura de Ejercicio1](imagenes/Ejercicio1_estructura.png)
-- Primero se comprueban los encabezados con `GestorArchivos.comprobarEncabezados()`. 
-- Luego se leen las reservas del archivo con `GestorArchivos.leeryCrearInstanciasDesdeArchivo()` y se crean objetos `Reservas`. 
+---
+
+### **Ejercicio1**
+Este programa crea el archivo `reservas.txt` si no existe y añade algunas reservas de ejemplo usando `GestorArchivos.escribirArchivo()`.
+
+<p align="center">
+  <img src="imagenes/Ejercicio1_estructura.png" alt="Estructura de Ejercicio1" width="500"/>
+</p>
+
+- Primero se comprueban los encabezados con `GestorArchivos.comprobarEncabezados()`.
+- Luego se leen las reservas del archivo con `GestorArchivos.leeryCrearInstanciasDesdeArchivo()` y se crean objetos `Reservas`.
 - Finalmente, se muestran todas las reservas en consola, se imprime el total con `Reservas.getTotalReservas()` y se cuenta cuántas son de clase Business con `Reservas.getCantidadReservasClase("Business")`.
-  
 
-![Vista del archivo de reservas](imagenes/Ejercicio1.png)
+<p align="center">
+  <img src="imagenes/Ejercicio1.png" alt="Vista del archivo de reservas" width="600"/>
+</p>
 
+---
 
-****
-- **Ejercicio2**: Este ejercicio amplía el anterior incluyendo el **destino** de cada reserva. 
+### **Ejercicio2**
+Este ejercicio amplía el anterior incluyendo el **destino** de cada reserva.
 
+<p align="center">
+  <img src="imagenes/Ejercicio2_estructura.png" alt="Estructura de Ejercicio2" width="500"/>
+</p>
 
-    ![Estructura de Ejercicio2](imagenes/Ejercicio2_estructura.png)
+- Primero se crea el archivo maestro `reservas_maestro.txt` y se añaden todas las reservas usando `GestorArchivos.escribirArchivo()`.
+- Luego se leen las reservas con `GestorArchivos.leeryCrearInstanciasDesdeArchivo()` para generar objetos `Reservas`.
+- Después, el programa crea archivos separados para cada destino y escribe en ellos las reservas correspondientes.
+- Finalmente, muestra en consola el total de reservas por archivo/destino usando `Reservas.getCantidadPorDestino()`.
 
-- Primero se crea el archivo maestro `reservas_maestro.txt` y se añaden todas las reservas usando `GestorArchivos.escribirArchivo()`. 
-- Luego se leen las reservas con `GestorArchivos.leeryCrearInstanciasDesdeArchivo()` para generar objetos `Reservas`. 
-- Después, el programa crea archivos separados para cada destino y escribe en ellos las reservas correspondientes. Finalmente, muestra en consola el total de reservas por archivo/destino usando `Reservas.getCantidadPorDestino()`.
- 
+<p align="center">
+  <img src="imagenes/Ejercicio2.png" alt="Vista del archivo de reservas" width="600"/>
+</p>
 
-![Vista del archivo de reservas](imagenes/Ejercicio2.png)
+---
 
+### **Ejercicio3**
+En este ejercicio se manejan **reservas con posibles errores**.
 
-- **Ejercicio3**: En este ejercicio se manejan **reservas con posibles errores**. 
-   
-![Estructura de Ejercicio3](imagenes/Ejercicio3_estructura.png)
+<p align="center">
+  <img src="imagenes/Ejercicio3_estructura.png" alt="Estructura de Ejercicio3" width="500"/>
+</p>
 
-
-- Se lee un archivo maestro con líneas que pueden estar incompletas o mal formateadas usando `GestorArchivos.procesarReservasConErrores()`. 
-- Las reservas válidas se crean como objetos `Reservas` y se escriben en archivos por destino, mientras que las líneas incorrectas se registran en `registro_errores.log`. 
+- Se lee un archivo maestro con líneas que pueden estar incompletas o mal formateadas usando `GestorArchivos.procesarReservasConErrores()`.
+- Las reservas válidas se crean como objetos `Reservas` y se escriben en archivos por destino, mientras que las líneas incorrectas se registran en `registro_errores.log`.
 - Al final, se puede ver en consola tanto las reservas por destino como el contenido del log de errores con `GestorArchivos.mostrarRegistroErrores()`.
-  
- ![Vista del archivo de reservas](imagenes/Ejercicio3.png)
 
+<p align="center">
+  <img src="imagenes/Ejercicio3.png" alt="Vista del archivo de reservas" width="600"/>
+</p>
 
-- **utilidades**: Este paquete tiene dos clases: `GestorArchivos` (todas las funciones para crear, leer y escribir archivos, además de procesar errores) y `Reservas` (representa cada reserva como un objeto y lleva la lista de todas).
-  
- ![Estructura de utilidades](imagenes/Utilidades_estructura.png)  
+---
 
+### **utilidades**
+Este paquete tiene dos clases: `GestorArchivos` (todas las funciones para crear, leer y escribir archivos, además de procesar errores) y `Reservas` (representa cada reserva como un objeto y lleva la lista de todas).
+
+<p align="center">
+  <img src="imagenes/Utilidades_estructura.png" alt="Estructura de utilidades" width="500"/>
+</p>
 
 Las imágenes usadas en la documentación están en la carpeta `imagenes`, pero no son esenciales para ejecutar el código.
-  
-![Estructura de utilidades](imagenes/Imagenes_estructura.png)
 
+<p align="center">
+  <img src="imagenes/Imagenes_estructura.png" alt="Estructura de imagenes" width="400"/>
+</p>
 
-
+---
 
 ## Ejecución
 
@@ -77,14 +98,11 @@ Para probar el proyecto solo necesitas abrirlo en IntelliJ IDEA o cualquier IDE 
 
 Después de ejecutar el programa, puedes revisar los archivos de texto generados en la carpeta `src` para ver los resultados.
 
-
 ## Uso de Inteligencia Artificial (ChatGPT)
 
 - Chat: https://chatgpt.com/share/68e2c4b1-06b8-800b-a6e1-c4378a1a95ee
 
 Usé ChatGPT para resolver dudas sobre Java, manejo de archivos, creación de instancias de `Reservas`, validación de datos y mostrar resultados en consola. Su uso se documentó y gestionó correctamente para guiar la implementación y aprendizaje.
-
-
 
 ## Problemas
 
@@ -99,4 +117,3 @@ Natalia Gámez Barea
 Carmen Casas Novas
 
 ---
-
