@@ -20,18 +20,6 @@ public class GestorReservas {
     }
 
     /**
-     * Comprueba si al menos una reserva tiene destino asignado.
-     */
-    public static boolean getHayDestino() {
-        for (Reserva reserva : listaReservas) {
-            if (!reserva.getDestino().isEmpty()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Muestra todas las reservas registradas en consola en un formato tabulado.
      */
     public static void mostrarReservas() {
