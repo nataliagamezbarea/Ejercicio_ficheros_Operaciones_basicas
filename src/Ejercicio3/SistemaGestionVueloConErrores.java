@@ -2,7 +2,6 @@ package Ejercicio3;
 
 import utilidades.GestorArchivos;
 import utilidades.GestorReservas;
-import utilidades.Reserva;
 
 /**
  * Programa principal para gestionar reservas de vuelo con posibles errores.

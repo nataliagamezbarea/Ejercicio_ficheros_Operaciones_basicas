@@ -15,15 +15,12 @@ public class GestorArchivos {
      * Crea un archivo si no existe. Si el archivo ya existía, no lo sobrescribe.
      *
      * @param nombre_archivo Nombre completo del archivo a crear.
-     * @return true si se creó el archivo, false si ya existía o hubo error.
      */
-    public static boolean crearArchivo(String nombre_archivo) {
+    public static void crearArchivo(String nombre_archivo) {
         try {
             File archivo = new File(nombre_archivo);
-            boolean existe = archivo.exists();
             FileWriter escribir = new FileWriter(archivo, true);
             escribir.close();
-            return !existe;
         } catch (SecurityException e) {
             System.out.println("No tienes permisos para escribir en esta carpeta");
         } catch (NullPointerException e) {
@@ -33,7 +30,6 @@ public class GestorArchivos {
         } catch (Exception e) {
             System.out.println("Ha habido problemas generales: " + e.getMessage());
         }
-        return false;
     }
 
     /**
@@ -73,12 +69,6 @@ public class GestorArchivos {
         }
     }
 
-    /**
-     * Lee un archivo de reservas y crea instancias de la clase Reservas.
-     * Funciona tanto para archivos con destino como sin destino.
-     *
-     * @param nombre_archivo Ruta completa del archivo de reservas.
-     */
     /**
      * Lee un archivo de reservas y crea instancias de la clase Reserva.
      * Cada reserva creada se agrega automáticamente al GestorReservas.
@@ -155,7 +145,6 @@ public class GestorArchivos {
         crearArchivo(archivoErrores);
 
         try (BufferedReader lector = new BufferedReader(new FileReader(archivoMaestro))) {
-            String encabezados = lector.readLine(); // Ignorar encabezados
 
             String linea;
             while ((linea = lector.readLine()) != null) {
@@ -184,7 +173,7 @@ public class GestorArchivos {
 
                 if (!lineaValida) {
                     String fechaHora = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
-                    escribirArchivo(archivoErrores, fechaHora + ", " + linea + ", " + descripcionError.toString());
+                    escribirArchivo(archivoErrores, fechaHora + ", " + linea + ", " + descripcionError);
                     continue;
                 }
 

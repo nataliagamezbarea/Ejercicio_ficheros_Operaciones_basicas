@@ -2,7 +2,6 @@ package Ejercicio1;
 
 import utilidades.GestorArchivos;
 import utilidades.GestorReservas;
-import utilidades.Reserva;
 
 /**
  * Programa principal para crear y gestionar reservas básicas.
